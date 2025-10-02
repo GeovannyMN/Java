@@ -1,0 +1,19 @@
+/* Informar um saldo e imprimir o saldo com reajuste de 1%. */
+
+import java.util.Scanner;
+
+public class Main
+{
+	public static void main(String[] args) {
+	
+	Scanner entrada = new Scanner(System.in);
+	float saldo;
+	
+	System.out.printf("Informe um saldo para calcular o reajuste de 1%%\n");
+	saldo = entrada.nextFloat();
+	
+	System.out.printf("O saldo informado reajustado vale %.2f\n", saldo*1.01);
+
+	}
+	
+}
