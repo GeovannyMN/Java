@@ -1,0 +1,58 @@
+/*Escrever um algoritmo que lê: 
+- a porcentagem do IPI a ser acrescido no valor das peças
+- o código da peça 1, valor unitário da peça 1, quantidade de peças 1
+- o código da peça 2, valor unitário da peça 2, quantidade de peças 2
+O algoritmo deve calcular o valor total a ser pago e apresentar o resultado.
+Fórmula : (valor1*quant1 + valor2*quant2)*(IPI/100 + 1)*/
+
+import java.util.Scanner;
+public class Main
+{
+	public static void main(String[] args) {
+	
+	Scanner entrada = new Scanner(System.in);
+	float ipi;
+	float valorEntrada;
+	int quantidadeEntrada;
+	Peca peca1 = new Peca();
+	Peca peca2 = new Peca();
+	
+	System.out.printf("Informe o valor do IPI\n");
+	ipi = entrada.nextFloat();
+	
+	System.out.printf("Informe o valor da peça 1\n");
+	peca1.setValor(entrada.nextFloat());
+	
+	System.out.printf("Informe a quantidade da peça 1\n");
+	peca1.setQuantidade(entrada.nextInt());
+	
+	System.out.printf("Informe o valor da peça 2\n");
+	peca2.setValor(entrada.nextFloat());
+	
+	System.out.printf("Informe a quantidade da peça 2\n");
+	peca2.setQuantidade(entrada.nextInt());
+
+	System.out.printf("O valor total a ser pago vale %.2f\n", (peca1.valorTotal() + peca2.valorTotal()) * (ipi/100+1) );
+
+	}
+	
+	public static class Peca
+    {
+	    float valor;
+	    int quantidade;
+	    
+	    public void setValor(float valor){
+	        this.valor = valor;
+	    }
+	    
+	    public void setQuantidade(int quantidade){
+	        this.quantidade = quantidade;
+	    }
+	    
+	    public float valorTotal()
+	    {
+	        return valor*quantidade;
+	    }
+    }
+	
+}
