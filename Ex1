@@ -1,0 +1,21 @@
+/*Faça um algoritmo que leia a idade de uma pessoa expressa em anos, meses e dias e
+mostre-a expressa em dias. Leve em consideração o ano com 365 dias e o mês com 30.*/
+
+import java.util.Scanner;
+
+public class Main
+{
+	public static void main(String[] args) {
+	    Scanner entrada = new Scanner(System.in);
+	    int ano;
+		int mes;
+		int dias;
+		
+		System.out.printf("Informe a data desejada com ano, mês e dias!");
+		ano = entrada.nextInt();
+		mes = entrada.nextInt();
+		dias = entrada.nextInt();
+		
+		System.out.printf("A data informada correspondem a %d dias", ano*365 + mes*30 + dias);
+		
+	}
