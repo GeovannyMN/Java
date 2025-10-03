@@ -1,0 +1,59 @@
+/*Tem-se um conjunto de dados contendo a altura e o sexo (masculino, feminino) de 4 pessoas.
+Fazer um algoritmo que calcule e escreva:
+  a. a maior e a menor altura do grupo;
+  b. média de altura dos homens;
+  c. o número de mulheres. */
+
+import java.util.Scanner;
+import java.util.List;
+
+public class Main
+{
+	public static void main(String[] args) {
+		
+		Scanner entrada = new Scanner(System.in);
+		int qtd = 4;
+		float[] alturas = new float[qtd];
+		String[] sexos = new String[qtd];
+		int menor, maior;
+		float media;
+		int qtdHomens;
+		menor = maior = qtdHomens = 0;
+		media = 0.0f;
+		
+		for (int i = 0; i < qtd; i++)
+		{
+		    alturas[i] = entrada.nextFloat();
+		    sexos[i] = entrada.next();
+		}
+		
+		for (int i = 1; i < qtd; i++)
+		{
+		    if (alturas[i] > alturas[maior])
+		    {
+		        maior = i;
+		    }
+		    if (alturas[i] < alturas[menor])
+		    {
+		        menor = i;
+		    }
+		}
+		
+		for (int i = 0; i < qtd; i++)
+		{
+		    if (sexos[i].intern() == "m")
+		    {
+		        media += alturas[i];
+		        qtdHomens++;
+		    }
+		}
+		
+		media /= qtdHomens;
+		
+		System.out.printf("Menor altura: %.2f\n", alturas[menor]);
+		System.out.printf("Maior altura: %.2f\n", alturas[maior]);
+		System.out.printf("Média de altura entre os homens: %.2f\n", media);
+		System.out.printf("São %d mulheres no grupo", qtd - qtdHomens);
+    }
+
+}
