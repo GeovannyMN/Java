@@ -1,0 +1,93 @@
+/*
+  Criando um sistema de relatórios onde se informa uma venda com seu valor, tipo de pagamento e horários.
+  O sistema armazena essas informações e depois deve retornar:
+  Relatórios de todas as vendas existentes organizados pelo horário
+  Relatórios de vendas por tipo de pagamento organizados pelo horário
+*/
+import java.util.Date;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.util.Scanner;
+
+
+public class App {
+    public static void main(String[] args){
+        
+        float valor = 0f;
+        String formaDePagamento = "";
+        Date data = new Date();
+        DateFormat horaFormatada = DateFormat.getTimeInstance();
+
+        PrintWriter ps;
+        
+        try {        
+            Scanner entrada = new Scanner(System.in);
+
+            System.out.println("Informe o valor da venda:");
+            valor = entrada.nextFloat();          
+
+            System.out.println("Informe a forma de pagamento:");
+            formaDePagamento = entrada.next();
+
+            entrada.close();
+
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        
+        
+        try {
+            ps = new PrintWriter("arquivo.txt");
+            ps.print(valor + " " + formaDePagamento + " " + horaFormatada.format(data));
+            ps.println();
+            ps.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        String nomeDoArquivo = "arquivo.txt";
+        // Declarar una variable BufferedReader
+        BufferedReader br = null;
+        try {
+            // Crear un objeto BufferedReader al que se le pasa 
+            //   un objeto FileReader con el nombre del fichero
+            br = new BufferedReader(new FileReader(nomeDoArquivo));
+            // Leer la primera línea, guardando en un String
+            String texto = br.readLine();
+            // Repetir mientras no se llegue al final del fichero
+            while(texto != null) {
+                // Hacer lo que sea con la línea leída
+                // En este ejemplo sólo se muestra por consola
+                System.out.println(texto);
+                // Leer la siguiente línea
+                texto = br.readLine();
+            }
+        }
+        // Captura de excepción por fichero no encontrado
+        catch (FileNotFoundException ex) {
+            System.out.println("Erro: Arquivo não encontrado");
+            ex.printStackTrace();
+        }
+        // Captura de cualquier otra excepción
+        catch(Exception ex) {
+            System.out.println("Erro ao ler o arquivo");
+            ex.printStackTrace();
+        }
+        // Asegurar el cierre del fichero en cualquier caso
+        finally {
+            try {
+                // Cerrar el fichero si se ha podido abrir
+                if(br != null) {
+                    br.close();
+                }
+            }
+            catch (Exception ex) {
+                System.out.println("Erro ao fechar o arquivo");
+                ex.printStackTrace();
+            }
+        }
+    }
+}
