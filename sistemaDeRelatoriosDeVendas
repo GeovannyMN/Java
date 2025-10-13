@@ -4,90 +4,138 @@
   Relatórios de todas as vendas existentes organizados pelo horário
   Relatórios de vendas por tipo de pagamento organizados pelo horário
 */
-import java.util.Date;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.PrintWriter;
-import java.text.DateFormat;
-import java.util.Scanner;
 
+import java.util.Date;
+import java.util.Random;
+//import java.util.Scanner;
+import java.util.Vector;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class App {
     public static void main(String[] args){
+
+        Vector<Venda> vendas = new Vector<>();
         
+
+        Venda v1 = new Venda(123.45f, "dinheiro", "09:35");
+        vendas.add(v1);
+
+        Venda v2 = new Venda(456.78f, "dinheiro", "10:35");
+        vendas.add(v2);
+
+        Venda v3 = new Venda(78.90f, "debito", "14:00");
+        vendas.add(v3);
+
+        Venda v4 = new Venda(0.99f, "pix", "14:40");
+        vendas.add(v4);
+
+        RelatorioValorMaior(vendas, 1f);
+        RelatorioFormaDePagamento(vendas, "dinheiro");
+        RelatorioPorHorario(vendas, 10, 40);
+    
+    }
+
+    public static void RelatorioValorMaior(Vector<Venda> vendas, float valor){
+        System.out.println("--- Relatório de Vendas por Valor: " + valor + " ---\n");
+        for (Venda venda : vendas){
+            if (venda.getValor() > valor) 
+            {
+                venda.ImprimirVenda();
+            }
+        }
+        System.out.println("-----------------------------------------------------\n");
+    }
+
+    public static void RelatorioFormaDePagamento(Vector<Venda> vendas, String fp){
+        System.out.println("--- Relatório de Vendas por Forma de Pagamento: " + fp + " ---\n");
+        for (Venda venda : vendas){
+            if (venda.getFormaDePagamento().equals(fp)) 
+            {
+                venda.ImprimirVenda();
+            }
+        }
+        System.out.println("-----------------------------------------------------\n");
+    }
+
+    public static void RelatorioPorHorario(Vector<Venda> vendas, int horas, int minutos){
+        System.out.println("--- Relatório de Vendas por Horário: " + horas + ":" + minutos + " ---\n");
+        for (Venda venda : vendas){
+            if (venda.getHoras() > horas || (venda.getHoras() == horas && venda.getMinutos() >= minutos) ) 
+            {
+                venda.ImprimirVenda();
+            }
+        }
+        System.out.println("----------------------------------------------------\n");
+    }
+
+    public static class Venda
+    {
+        int id;
         float valor = 0f;
         String formaDePagamento = "";
-        Date data = new Date();
-        DateFormat horaFormatada = DateFormat.getTimeInstance();
+        Date hora = new Date();
 
-        PrintWriter ps;
-        
-        try {        
-            Scanner entrada = new Scanner(System.in);
+        SimpleDateFormat formatadorDeData = new SimpleDateFormat("HH:mm");
 
-            System.out.println("Informe o valor da venda:");
-            valor = entrada.nextFloat();          
-
-            System.out.println("Informe a forma de pagamento:");
-            formaDePagamento = entrada.next();
-
-            entrada.close();
-
-        }catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        
-        
-        try {
-            ps = new PrintWriter("arquivo.txt");
-            ps.print(valor + " " + formaDePagamento + " " + horaFormatada.format(data));
-            ps.println();
-            ps.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        Venda()
+        {
+            this.id = NovoId();
         }
 
-        String nomeDoArquivo = "arquivo.txt";
-        // Declarar una variable BufferedReader
-        BufferedReader br = null;
-        try {
-            // Crear un objeto BufferedReader al que se le pasa 
-            //   un objeto FileReader con el nombre del fichero
-            br = new BufferedReader(new FileReader(nomeDoArquivo));
-            // Leer la primera línea, guardando en un String
-            String texto = br.readLine();
-            // Repetir mientras no se llegue al final del fichero
-            while(texto != null) {
-                // Hacer lo que sea con la línea leída
-                // En este ejemplo sólo se muestra por consola
-                System.out.println(texto);
-                // Leer la siguiente línea
-                texto = br.readLine();
+        Venda(float valor, String formaDePagamento, String hora)
+        {
+            this.id = NovoId();
+            this.valor = valor;
+            this.formaDePagamento = formaDePagamento;
+            try{
+                this.hora = formatadorDeData.parse(hora);
             }
+            catch (ParseException e)
+            {
+                e.printStackTrace();
+            } 
         }
-        // Captura de excepción por fichero no encontrado
-        catch (FileNotFoundException ex) {
-            System.out.println("Erro: Arquivo não encontrado");
-            ex.printStackTrace();
+
+        public float getValor() {
+            return valor;
         }
-        // Captura de cualquier otra excepción
-        catch(Exception ex) {
-            System.out.println("Erro ao ler o arquivo");
-            ex.printStackTrace();
+
+        public String getFormaDePagamento() {
+            return formaDePagamento;
         }
-        // Asegurar el cierre del fichero en cualquier caso
-        finally {
-            try {
-                // Cerrar el fichero si se ha podido abrir
-                if(br != null) {
-                    br.close();
-                }
+
+        public int getHoras() {
+            return hora.getHours();
+        }
+
+        public int getMinutos()
+        {
+            return hora.getMinutes();
+        }
+
+        protected int NovoId() {
+            Random gerador = new Random();
+            return gerador.nextInt(99999);
+        }
+
+        public void setVenda(float valor, String formaDePagamento, String hora)
+        {
+            this.valor = valor;
+            this.formaDePagamento = formaDePagamento;
+            try{
+                this.hora = formatadorDeData.parse(hora);
             }
-            catch (Exception ex) {
-                System.out.println("Erro ao fechar o arquivo");
-                ex.printStackTrace();
-            }
+            catch (ParseException e)
+            {
+                e.printStackTrace();
+            } 
         }
+
+        public void ImprimirVenda(){
+            System.out.print("Venda " + id + " R$ " + valor + " ");
+            System.out.println(hora.getHours() + ":" + hora.getMinutes() + " " + formaDePagamento);
+        }
+
     }
 }
