@@ -1,0 +1,19 @@
+package br.com.venda.aplicacao;
+
+import br.com.venda.Venda;
+import br.com.venda.VendaDAO;
+
+public class Main {
+
+    public static void main(String[] args) {
+        VendaDAO vendadao = new VendaDAO();
+
+        Venda venda = new Venda();
+
+        venda.setValor("989.0f");
+        venda.setFormaDePagamento("pix");
+        venda.setHora("23:59");
+
+        vendadao.save(venda);
+    }
+}
