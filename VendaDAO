@@ -1,0 +1,43 @@
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+public class VendaDAO {
+
+    public void save(Venda venda){
+
+        String sql = "INSERT INTO venda(valor, formaDePagamento, hora) VALUES (?, ?, ?)";
+
+        Connection conn = null;
+        PreparedStatement pstm = null;
+
+        try {
+            conn = ConnectionFactory.conectarAoBD();
+
+            pstm = conn.prepareStatement(sql);
+
+            pstm.setFloat(1, venda.getValor());
+            pstm.setString(2, venda.getFormaDePagamento());
+            pstm.setDate(3, venda.getHoras());
+
+            pstm.execute();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }finally{
+            try {
+                if (pstm != null){
+                    pstm.close();
+                }
+
+                if (conn != null)
+                {
+                    conn.close();
+                }
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+
+}
