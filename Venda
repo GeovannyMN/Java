@@ -1,0 +1,58 @@
+import java.util.Date;
+
+public class Venda {
+    private int id;
+    private float valor = 0f;
+    private String formaDePagamento = "";
+    private Date hora = new Date();
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
+    }
+
+    public float getValor() {
+        return valor;
+    }
+
+    public void setValor(float valor)
+    {
+        this.valor = valor;
+    }
+
+    public String getFormaDePagamento() {
+        return formaDePagamento;
+    }
+
+    public void setFormaDePagamento(String formaDePagamento)
+    {
+        this.formaDePagamento = formaDePagamento;
+    }
+
+    public int getHoras() {
+        return hora.getHours();
+    }
+
+    public void setHoras(Date hora)
+    {
+        this.hora = hora;
+    }
+
+    public int getMinutos()
+    {
+        return hora.getMinutes();
+    }
+
+    public Date getHora() {
+        return hora;
+    }
+
+    public void setHora(Date hora) {
+        this.hora = hora;
+    }
+}
+
